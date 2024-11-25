@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Адаптиный экран и фрагменты</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_level">выбор уровня</string>
+    <string name="_1_10">от 1 до 10</string>
+    <string name="_10_100">от 10 до 100</string>
+    <string name="_100_1000">от 100 до 1000</string>
+    <string name="minSum_result">минимальная сумма %04d</string>
+    <string name="maxSum_result">максимальная сумма %04d</string>
+</resources>

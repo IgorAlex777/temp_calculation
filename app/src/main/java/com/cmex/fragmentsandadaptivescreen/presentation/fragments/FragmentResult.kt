@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.cmex.fragmentsandadaptivescreen.R
 import com.cmex.fragmentsandadaptivescreen.databinding.FragmentResultBinding
@@ -15,25 +17,16 @@ import com.cmex.fragmentsandadaptivescreen.presentation.myLog
 
 
 class FragmentResult : Fragment() {
+    private val args by  navArgs<FragmentResultArgs>()
     private lateinit var binding:FragmentResultBinding
     private lateinit var result: Result
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         checkBuild()
+         //checkBuild()
+        result=args.result
     }
-     private fun checkBuild(){
-         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
-             arguments?.getParcelable(RESULT_KEY,Result::class.java)?.let {
-                  result=it
-              }
-         }else{
-             @Suppress("DEPRECATION")
-             arguments?.getParcelable<Result>(RESULT_KEY)?.let {
-                 result=it
-             }
-         }
-     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,7 +44,7 @@ class FragmentResult : Fragment() {
     private fun onClickExit(){
         binding.ivExit.setOnClickListener {
             myLog("press Exit")
-            requireActivity().supportFragmentManager.popBackStack(FragmentLevel.LEVEL_N1,1)
+           findNavController().popBackStack()
         }
     }
      private fun setScreen()= with(binding){
@@ -73,18 +66,10 @@ class FragmentResult : Fragment() {
     private fun closeFragmentOnBackPress(){
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,object :OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                requireActivity().supportFragmentManager.popBackStack(FragmentLevel.LEVEL_N1,1)
+               findNavController().popBackStack()
             }
 
         })
     }
-    companion object {
-      private const val RESULT_KEY="result"
-        fun newInstance(result: Result) =
-            FragmentResult().apply {
-                arguments = Bundle().apply {
-                  putParcelable(RESULT_KEY,result)
-                }
-            }
-    }
+
 }

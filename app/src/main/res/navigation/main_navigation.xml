@@ -9,5 +9,31 @@
         android:id="@+id/fragmentLevel"
         android:name="com.cmex.fragmentsandadaptivescreen.presentation.fragments.FragmentLevel"
         android:label="fragment_level"
-        tools:layout="@layout/fragment_level" />
+        tools:layout="@layout/fragment_level" >
+        <action
+            android:id="@+id/action_fragmentLevel_to_fragmentN1"
+            app:destination="@id/fragmentN1" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentN1"
+        android:name="com.cmex.fragmentsandadaptivescreen.presentation.fragments.FragmentN1"
+        android:label="FragmentN1" >
+        <action
+            android:id="@+id/action_fragmentN1_to_fragmentResult"
+            app:destination="@id/fragmentResult"
+            app:popUpTo="@id/fragmentN1"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="level"
+            app:argType="com.cmex.fragmentsandadaptivescreen.domain.Level" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentResult"
+        android:name="com.cmex.fragmentsandadaptivescreen.presentation.fragments.FragmentResult"
+        android:label="fragment_result"
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="result"
+            app:argType="com.cmex.fragmentsandadaptivescreen.domain.Result" />
+    </fragment>
 </navigation>

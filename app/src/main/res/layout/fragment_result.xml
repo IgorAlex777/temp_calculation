@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="resultData"
+            type="com.cmex.fragmentsandadaptivescreen.domain.Result" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -26,7 +32,7 @@
         android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginEnd="@dimen/_25sdp"
         android:background="@drawable/fon_max"
-        android:text="@string/maxSum_result"
+        android:text="@{resultData.maxSumString}"
         android:theme="@style/styleLevelText"
         app:layout_constraintBottom_toTopOf="@+id/guidelineBottom"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_25sdp"
         android:background="@drawable/fon_min"
-        android:text="@string/minSum_result"
+        android:text="@{resultData.minSumString}"
         android:theme="@style/styleLevelText"
         app:layout_constraintEnd_toEndOf="@+id/tvSumMax"
         app:layout_constraintStart_toStartOf="@+id/tvSumMax"
@@ -71,3 +77,4 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -55,8 +55,7 @@ class FragmentResult : Fragment() {
                  .error(R.drawable.no)
                  .into(ivResult)
          }
-         tvSumMin.text=getString(R.string.minSum_result,result.sumNumbersMin)
-         tvSumMax.text=getString(R.string.maxSum_result,result.sumNumbersMax)
+         binding.resultData=result
      }
 
     private fun closeFragmentOnBackPress(){

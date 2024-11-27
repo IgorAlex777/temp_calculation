@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.cmex.fragmentsandadaptivescreen.R
 import com.cmex.fragmentsandadaptivescreen.databinding.FragmentN1Binding
@@ -22,6 +24,7 @@ import com.cmex.fragmentsandadaptivescreen.presentation.myLog
 
 
 class FragmentN1 : Fragment() {
+    private val args by navArgs<FragmentN1Args>()
      private val model by lazy{ ViewModelProvider(this)[ViewModelNumbers::class.java]}
       private lateinit var binding:FragmentN1Binding
     private lateinit var settings: Settings
@@ -31,22 +34,11 @@ class FragmentN1 : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkBuild()
+       level=args.levelSelect
         model.startGeneration(level)
 
     }
-    private fun checkBuild(){
-        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.TIRAMISU){
-           arguments?.getParcelable(LEVEL_MODE,Level::class.java)?.let {
-               level=it
-           }
-        } else{
-            @Suppress("DEPRECATION")
-            arguments?.getParcelable<Level>(LEVEL_MODE)?.let {
-                level=it
-            }
-        }
-    }
+
     private val listNumbersView by lazy {
         mutableListOf<TextView>().apply {
             add(binding.tv1)
@@ -84,7 +76,7 @@ class FragmentN1 : Fragment() {
         }
         model.isFinishTimer.observe(viewLifecycleOwner){
             if(it){
-                getFragment(FragmentResult.newInstance(result))
+                getFragment(result)
             }
         }
         model.resultModel.observe(viewLifecycleOwner){
@@ -92,15 +84,12 @@ class FragmentN1 : Fragment() {
         }
 
     }
-    private fun getFragment(fragment: Fragment){
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.container,fragment)
-            .addToBackStack(null)
-            .commit()
+    private fun getFragment(result: Result){
+       findNavController().navigate(FragmentN1Directions.actionFragmentN1ToFragmentResult(result))
     }
 
     private fun closeFragment(){
-        requireActivity().supportFragmentManager.popBackStack()
+      findNavController().popBackStack()
     }
     private fun onSetScreen()= with(binding){
         for(i in 0 until numbers.listNumbers.size){
@@ -113,15 +102,4 @@ class FragmentN1 : Fragment() {
             .error(R.drawable.no)
             .into(imageView)
     }
-    companion object {
-
-        private const val LEVEL_MODE="level_mode"
-        fun newInstance(level: Level) =
-            FragmentN1().apply {
-                arguments = Bundle().apply {
-                  putParcelable(LEVEL_MODE,level)
-                }
-            }
-    }
-
 }

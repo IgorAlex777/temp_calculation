@@ -8,4 +8,9 @@ data class Result(
     val flagResult:Boolean,
     val sumNumbersMin: Int,
     val sumNumbersMax:Int
-):Parcelable
+):Parcelable{
+    val minString:String
+        get() = "$sumNumbersMin- минимальная сумма"
+    val maxString:String
+        get() = "$sumNumbersMax- максимальная сумма"
+}

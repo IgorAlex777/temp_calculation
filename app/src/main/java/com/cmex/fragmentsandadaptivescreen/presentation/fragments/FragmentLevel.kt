@@ -8,23 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.cmex.fragmentsandadaptivescreen.R
 import com.cmex.fragmentsandadaptivescreen.databinding.FragmentLevelBinding
 import com.cmex.fragmentsandadaptivescreen.domain.Level
 
 
 class FragmentLevel : Fragment() {
+
     private lateinit var binding:FragmentLevelBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
 
-        }
     }
 
-
-
-    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,11 +34,8 @@ class FragmentLevel : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onClickLevel()
     }
-    private fun getFragment(fragment: Fragment){
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.container,fragment)
-            .addToBackStack(LEVEL_N1)
-            .commit()
+    private fun getFragment(level: Level){
+       findNavController().navigate(FragmentLevelDirections.actionFragmentLevelToFragmentN1(level))
     }
     private fun onClickLevel()= with(binding){
         val listener=listenerClickLevel()
@@ -52,19 +46,11 @@ class FragmentLevel : Fragment() {
     private fun listenerClickLevel():OnClickListener= with(binding){
         return OnClickListener {
             when(it){
-                tvLevel1->{getFragment(FragmentN1.newInstance(Level.NUMBERS10))}
-                tvLevel2->{getFragment(FragmentN1.newInstance(Level.NUMBERS100))}
-                tvLevel3->{getFragment(FragmentN1.newInstance(Level.NUMBERS1000))}
+                tvLevel1->{getFragment(Level.NUMBERS10)}
+                tvLevel2->{getFragment(Level.NUMBERS100)}
+                tvLevel3->{getFragment(Level.NUMBERS1000)}
             }
         }
     }
-    companion object {
-        const val LEVEL_N1="level_1"
-        fun newInstance() =
-            FragmentLevel().apply {
-                arguments = Bundle().apply {
 
-                }
-            }
-    }
 }

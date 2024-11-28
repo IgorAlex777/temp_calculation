@@ -23,7 +23,6 @@ class FragmentResult : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-         //checkBuild()
         result=args.result
     }
 
@@ -43,32 +42,17 @@ class FragmentResult : Fragment() {
     }
     private fun onClickExit(){
         binding.ivExit.setOnClickListener {
-            myLog("press Exit")
-           findNavController().popBackStack()
+            findNavController().popBackStack()
         }
     }
-     private fun setScreen()= with(binding){
-         if(result.flagResult){
-             Glide.with(this@FragmentResult)
-                 .load(R.drawable.correct_answer)
-                 .error(R.drawable.no)
-                 .into(ivResult)
-         } else{
-             Glide.with(this@FragmentResult)
-                 .load(R.drawable.loss_gif)
-                 .error(R.drawable.no)
-                 .into(ivResult)
-         }
-       binding.resultData=result
+     private fun setScreen(){
+         binding.resultData=result
      }
-
     private fun closeFragmentOnBackPress(){
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,object :OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                findNavController().popBackStack()
             }
-
         })
     }
-
 }

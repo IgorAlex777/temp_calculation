@@ -15,6 +15,7 @@ import com.cmex.fragmentsandadaptivescreen.domain.Settings
 
 
 class ViewModelNumbers:ViewModel() {
+    private val listSumNumbers= mutableListOf<Int>()
 
    private val listenerImpl= RepositoryImpl
    private val listenerSettingsUseCase= SettingsUseCase(listenerImpl)
@@ -40,7 +41,12 @@ class ViewModelNumbers:ViewModel() {
     private val _resultModel=MutableLiveData<Result>()
     val resultModel:LiveData<Result>
         get() = _resultModel
-
+   private val _max=MutableLiveData<Int>()
+    val max:LiveData<Int>
+        get() = _max
+    private val _min=MutableLiveData<Int>()
+    val min:LiveData<Int>
+        get() = _min
     fun startGeneration(level: Level){
         _isFinishTimer.value=false
         setting(level)
@@ -48,17 +54,22 @@ class ViewModelNumbers:ViewModel() {
         generation(settings)
 
     }
+
      private fun setResult():Result{
-      numbersModel.value?.let {
-          numbers=it
-      }
-         return if(numbers.maxSum!=0 || numbers.minSum!=0) Result(true,numbers.minSum,numbers.maxSum)
-         else Result(false,numbers.minSum,numbers.maxSum)
+         val minSumFromList=listSumNumbers.min()
+             val maxSumFromList=listSumNumbers.max()
+         return if(minSumFromList<=settings.minSum && maxSumFromList>=settings.maxSum){
+             Result(true,listSumNumbers)
+         }
+         else Result(false,listSumNumbers)
      }
 
     private fun generation(settings: Settings) {
 
         _numbersModel.value=listenerNumbersUseCase(settings)
+        _numbersModel.value?.let {
+            numbers=it
+        }
     }
     private fun setting(level: Level){
         _settingsModel.value=listenerSettingsUseCase(level)
@@ -73,14 +84,16 @@ class ViewModelNumbers:ViewModel() {
         timerDown=object :CountDownTimer(ms, INTERVAL){
             override fun onTick(msec: Long) {
                 if( msec.toInt()%2==0){
-                    myLog("${(msec.toInt()/1000)%2}")
-                   generation(settings)
+                    generation(settings)
+                    listSumNumbers.add(numbers.listNumbers.sum())
+                    _max.value=listSumNumbers.max()
+                    _min.value=listSumNumbers.min()
                 }
                 _timerModel.value=  msToString(msec)
-                _resultModel.value=setResult()
-            }
 
+            }
             override fun onFinish() {
+                _resultModel.value=setResult()
                 _isFinishTimer.value=true
             }
 

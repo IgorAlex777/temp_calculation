@@ -39,16 +39,7 @@ class FragmentN1 : Fragment() {
 
     }
 
-    private val listNumbersView by lazy {
-        mutableListOf<TextView>().apply {
-            add(binding.tv1)
-            add(binding.tv2)
-            add(binding.tv3)
-            add(binding.tv4)
-            add(binding.tv5)
-            add(binding.tv6)
-        }
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,7 +50,7 @@ class FragmentN1 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        onSetScreen()
         initObserver()
     }
     private fun initObserver(){
@@ -69,16 +60,15 @@ class FragmentN1 : Fragment() {
         }
         model.numbersModel.observe(viewLifecycleOwner){
             numbers=it
-            onSetScreen()
+
         }
-        model.timerModel.observe(viewLifecycleOwner){
-            binding.tvTimer.text=it
-        }
+
         model.isFinishTimer.observe(viewLifecycleOwner){
             if(it){
                 getFragment(result)
             }
         }
+
         model.resultModel.observe(viewLifecycleOwner){
             result=it
         }
@@ -88,20 +78,10 @@ class FragmentN1 : Fragment() {
       findNavController().navigate(FragmentN1Directions.actionFragmentN1ToFragmentResult(result))
 
     }
+    private fun onSetScreen(){
+        binding.dataModel=model
+        binding.lifecycleOwner=viewLifecycleOwner
 
-    private fun closeFragment(){
-        requireActivity().supportFragmentManager.popBackStack()
-    }
-    private fun onSetScreen()= with(binding){
-        for(i in 0 until numbers.listNumbers.size){
-            listNumbersView[i].text=numbers.listNumbers[i].toString()
-        }
-       tvMaxSum.text=numbers.maxSum.toString()
-       tvMinSum.text=numbers.minSum.toString()
-        Glide.with(this@FragmentN1)
-            .load(R.drawable.lera_anim)
-            .error(R.drawable.no)
-            .into(imageView)
     }
 
 

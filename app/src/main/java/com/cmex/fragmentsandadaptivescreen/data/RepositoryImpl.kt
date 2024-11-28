@@ -20,18 +20,13 @@ object RepositoryImpl :RepositoryNumbers{
         var sumMin= 0
         var sumMax=0
         val numbersList= hashSetOf<Int>()
-        myLog("NUMBERLIST_0=$numbersList")
+
         while (numbersList.size<settings.countNumbers){
             val number=(settings.minNumber..settings.maxNumber).random()
             numbersList.add(number)
         }
-        myLog("NUMBERLIST_1=$numbersList")
-        val sum=numbersList.sum()
-      if(sum<=settings.minSum){
-          sumMin=sum
-        }else if(sum>=settings.maxSum){
-            sumMax=sum
-        }
-     return Numbers(sumMin,sumMax,numbersList.toList())
+          val list=numbersList.toList().shuffled()
+
+     return Numbers(list)
     }
 }

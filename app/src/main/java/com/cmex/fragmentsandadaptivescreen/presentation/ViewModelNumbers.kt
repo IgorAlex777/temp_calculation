@@ -23,6 +23,9 @@ class ViewModelNumbers:ViewModel() {
     private lateinit var timerDown:CountDownTimer
    private lateinit var numbers: Numbers
 
+   private val listSum= mutableListOf<Int>()
+
+
   private val _numbersModel=MutableLiveData<Numbers>()
     val numbersModel:LiveData<Numbers>
         get() = _numbersModel
@@ -40,25 +43,35 @@ class ViewModelNumbers:ViewModel() {
     private val _resultModel=MutableLiveData<Result>()
     val resultModel:LiveData<Result>
         get() = _resultModel
+    private val _minList=MutableLiveData<Int>()
+    val minList:LiveData<Int>
+        get() = _minList
+    private val _maxList= MutableLiveData<Int>()
+    val maxList:LiveData<Int>
+        get() = _maxList
 
     fun startGeneration(level: Level){
+
+        listSum.clear()
         _isFinishTimer.value=false
         setting(level)
-        timerRun()
         generation(settings)
+        timerRun()
+
 
     }
      private fun setResult():Result{
-      numbersModel.value?.let {
-          numbers=it
-      }
-         return if(numbers.maxSum!=0 || numbers.minSum!=0) Result(true,numbers.minSum,numbers.maxSum)
-         else Result(false,numbers.minSum,numbers.maxSum)
+         val min=listSum.min()
+         val max=listSum.max()
+         return if(min<=settings.minSum && max>=settings.maxSum) Result(true,listSum)
+         else Result(false,listSum)
      }
 
     private fun generation(settings: Settings) {
-
         _numbersModel.value=listenerNumbersUseCase(settings)
+       _numbersModel.value?.let {
+           numbers=it
+       }
     }
     private fun setting(level: Level){
         _settingsModel.value=listenerSettingsUseCase(level)
@@ -75,12 +88,16 @@ class ViewModelNumbers:ViewModel() {
                 if( msec.toInt()%2==0){
                     myLog("${(msec.toInt()/1000)%2}")
                    generation(settings)
+                    listSum.add(numbers.listNumbers.sum())
+                    _minList.value=listSum.min()
+                    _maxList.value=listSum.max()
                 }
                 _timerModel.value=  msToString(msec)
-                _resultModel.value=setResult()
+
             }
 
             override fun onFinish() {
+                _resultModel.value=setResult()
                 _isFinishTimer.value=true
             }
 

@@ -95,8 +95,7 @@ class FragmentN1 : Fragment() {
         for(i in 0 until numbers.listNumbers.size){
             listNumbersView[i].text=numbers.listNumbers[i].toString()
         }
-       tvMaxSum.text=numbers.maxSum.toString()
-       tvMinSum.text=numbers.minSum.toString()
+
         Glide.with(this@FragmentN1)
             .load(R.drawable.lera_anim)
             .error(R.drawable.no)

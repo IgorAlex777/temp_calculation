@@ -17,8 +17,7 @@ object RepositoryImpl :RepositoryNumbers{
     }
 
     override fun generationScreen(settings: Settings): Numbers {
-        var sumMin= 0
-        var sumMax=0
+
         val numbersList= hashSetOf<Int>()
 
         while (numbersList.size<settings.countNumbers){

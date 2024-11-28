@@ -24,7 +24,7 @@ class ViewModelNumbers:ViewModel() {
    private lateinit var numbers: Numbers
 
    private val listSum= mutableListOf<Int>()
-
+   private val percentMinSum=0
 
   private val _numbersModel=MutableLiveData<Numbers>()
     val numbersModel:LiveData<Numbers>
@@ -49,6 +49,9 @@ class ViewModelNumbers:ViewModel() {
     private val _maxList= MutableLiveData<Int>()
     val maxList:LiveData<Int>
         get() = _maxList
+    private val _percentMin=MutableLiveData<Int>()
+    val percentMin:LiveData<Int>
+        get() = _percentMin
 
     fun startGeneration(level: Level){
 
@@ -86,11 +89,12 @@ class ViewModelNumbers:ViewModel() {
         timerDown=object :CountDownTimer(ms, INTERVAL){
             override fun onTick(msec: Long) {
                 if( msec.toInt()%2==0){
-                    myLog("${(msec.toInt()/1000)%2}")
-                   generation(settings)
+                    generation(settings)
                     listSum.add(numbers.listNumbers.sum())
                     _minList.value=listSum.min()
                     _maxList.value=listSum.max()
+                    _percentMin.value=(((settings.minSum/listSum.min().toDouble()))*100).toInt()
+                    val percent=_percentMin.value
                 }
                 _timerModel.value=  msToString(msec)
 

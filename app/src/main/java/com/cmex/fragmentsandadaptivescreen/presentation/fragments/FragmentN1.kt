@@ -25,80 +25,49 @@ import com.cmex.fragmentsandadaptivescreen.presentation.myLog
 
 class FragmentN1 : Fragment() {
     private val args by navArgs<FragmentN1Args>()
-     private val model by lazy{ ViewModelProvider(this)[ViewModelNumbers::class.java]}
-      private lateinit var binding:FragmentN1Binding
-    private lateinit var settings: Settings
+    private val model by lazy { ViewModelProvider(this)[ViewModelNumbers::class.java] }
+    private lateinit var binding: FragmentN1Binding
     private lateinit var numbers: Numbers
     private lateinit var level: Level
     private lateinit var result: Result
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       level=args.levelSelect
+        level = args.levelSelect
         model.startGeneration(level)
-
     }
 
-    private val listNumbersView by lazy {
-        mutableListOf<TextView>().apply {
-            add(binding.tv1)
-            add(binding.tv2)
-            add(binding.tv3)
-            add(binding.tv4)
-            add(binding.tv5)
-            add(binding.tv6)
-        }
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       binding=FragmentN1Binding.inflate(inflater,container,false)
+        binding = FragmentN1Binding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initObserver()
     }
-    private fun initObserver(){
-        model.settingsModel.observe(viewLifecycleOwner){
-            settings=it
-
-        }
-        model.numbersModel.observe(viewLifecycleOwner){
-            numbers=it
+    private fun initObserver() {
+        model.numbersModel.observe(viewLifecycleOwner) {
+            numbers = it
             onSetScreen()
         }
-        model.timerModel.observe(viewLifecycleOwner){
-            binding.tvTimer.text=it
-        }
-        model.isFinishTimer.observe(viewLifecycleOwner){
-            if(it){
+        model.isFinishTimer.observe(viewLifecycleOwner) {
+            if (it) {
                 getFragment(result)
             }
         }
-        model.resultModel.observe(viewLifecycleOwner){
-            result=it
+        model.resultModel.observe(viewLifecycleOwner) {
+            result = it
         }
-
     }
-    private fun getFragment(result: Result){
-       findNavController().navigate(FragmentN1Directions.actionFragmentN1ToFragmentResult(result))
+    private fun getFragment(result: Result) {
+        findNavController().navigate(FragmentN1Directions.actionFragmentN1ToFragmentResult(result))
     }
+    private fun onSetScreen() {
+        binding.dataModel = model
+        binding.lifecycleOwner = viewLifecycleOwner
 
-    private fun closeFragment(){
-      findNavController().popBackStack()
-    }
-    private fun onSetScreen()= with(binding){
-        for(i in 0 until numbers.listNumbers.size){
-            listNumbersView[i].text=numbers.listNumbers[i].toString()
-        }
-
-        Glide.with(this@FragmentN1)
-            .load(R.drawable.lera_anim)
-            .error(R.drawable.no)
-            .into(imageView)
     }
 }

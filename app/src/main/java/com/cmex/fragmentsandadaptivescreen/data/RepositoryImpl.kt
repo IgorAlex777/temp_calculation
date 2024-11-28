@@ -10,9 +10,9 @@ object RepositoryImpl :RepositoryNumbers{
 
     override fun settingsNumbers(level: Level): Settings {
         return when(level){
-            Level.NUMBERS10-> Settings(5,1,9,25,35,6)
-            Level.NUMBERS100-> Settings(15,11,99,250,300,6)
-            Level.NUMBERS1000-> Settings(5,101,999,2500,3000,6)
+            Level.NUMBERS10-> Settings(15,1,9,25,40,6)
+            Level.NUMBERS100-> Settings(15,11,99,250,400,6)
+            Level.NUMBERS1000-> Settings(15,101,999,2500,4000,6)
         }
     }
 

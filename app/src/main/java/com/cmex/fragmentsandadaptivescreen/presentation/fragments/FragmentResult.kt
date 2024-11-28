@@ -44,17 +44,6 @@ class FragmentResult : Fragment() {
         }
     }
      private fun setScreen()= with(binding){
-         if(result.flagResult){
-             Glide.with(this@FragmentResult)
-                 .load(R.drawable.correct_answer)
-                 .error(R.drawable.no)
-                 .into(ivResult)
-         } else{
-             Glide.with(this@FragmentResult)
-                 .load(R.drawable.loss_gif)
-                 .error(R.drawable.no)
-                 .into(ivResult)
-         }
          binding.resultData=result
      }
 

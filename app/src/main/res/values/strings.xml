@@ -8,4 +8,6 @@
     <string name="_100_1000">от 100 до 1000</string>
     <string name="minSum_result">минимальная сумма %4d</string>
     <string name="maxSum_result">максимальная сумма %4d</string>
+    <string name="min">min</string>
+    <string name="max">max</string>
 </resources>

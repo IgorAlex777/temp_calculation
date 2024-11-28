@@ -18,6 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_2sdp"
+        app:bindSetImageResult="@{resultData.flagResult}"
         android:src="@drawable/correct_answer"
         app:layout_constraintBottom_toTopOf="@+id/guidelineTop"
         app:layout_constraintDimensionRatio="1:1"

@@ -49,9 +49,7 @@ class ViewModelNumbers:ViewModel() {
     private val _maxList= MutableLiveData<Int>()
     val maxList:LiveData<Int>
         get() = _maxList
-    private val _percentMin=MutableLiveData<Int>()
-    val percentMin:LiveData<Int>
-        get() = _percentMin
+
 
     fun startGeneration(level: Level){
 
@@ -93,7 +91,7 @@ class ViewModelNumbers:ViewModel() {
                     listSum.add(numbers.listNumbers.sum())
                     _minList.value=listSum.min()
                     _maxList.value=listSum.max()
-                    _percentMin.value=(((settings.minSum/listSum.min().toDouble()))*100).toInt()
+
 
                 }
                 _timerModel.value=  msToString(msec)

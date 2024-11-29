@@ -1,8 +1,10 @@
 package com.cmex.fragmentsandadaptivescreen.presentation
 
+import android.os.Build
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.cmex.fragmentsandadaptivescreen.R
@@ -31,3 +33,12 @@ fun onSetImageResult(imageView: ImageView,flag:Boolean){
         Glide.with(imageView.context).load(R.drawable.loss_gif).error(R.drawable.no).into(imageView)
     }
 }
+@BindingAdapter(value = ["app:progressScaled","app:myMin"],requireAll = true)
+fun setPercentMin(progressBar: ProgressBar,minSet:Int,minGet:Int){
+    val percent=minSet/minGet.toDouble()*100
+    progressBar.progress=percent.toInt()
+}
+
+@BindingAdapter("myMin")
+fun setMin(progressBar: ProgressBar,n:Int):Int=n
+

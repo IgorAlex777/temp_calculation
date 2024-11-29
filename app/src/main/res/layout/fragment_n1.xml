@@ -169,11 +169,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:max="120"
-        android:progress="@{dataModel.percentMin}"
+
+        app:myMin="@{dataModel.minList}"
+
         android:progressDrawable="@drawable/fon_progress_min"
-        android:secondaryProgress="100"
+        android:secondaryProgress="@{100}"
+        app:progressScaled="@{dataModel.settingsModel.minSum}"
         app:layout_constraintBottom_toTopOf="@+id/pbMax"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMaxSum"
